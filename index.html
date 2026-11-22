@@ -1,0 +1,842 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#101827">
+<meta name="description" content="Günlük sorumluluklarını, hedeflerini ve ilerlemeni takip et.">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
+<title>Sorumluluk Çetelesi v2.6.3</title>
+<style>
+:root{--bg:#f4f6fa;--panel:#fff;--text:#172033;--muted:#738096;--line:#e7ebf1;--accent:#4263eb;--soft:#edf1ff;--green:#169b62;--red:#d64b55;--shadow:0 8px 28px #1720330c}
+[data-theme=dark]{--bg:#101827;--panel:#192437;--text:#edf2fb;--muted:#9aa8bd;--line:#2b3950;--accent:#91a7ff;--soft:#273452;--green:#4bd39a;--red:#ff7d86;--shadow:0 8px 28px #0003}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px system-ui,-apple-system,Segoe UI,sans-serif}button,input,select{font:inherit}button{cursor:pointer;border:0}.app{max-width:760px;margin:auto;min-height:100vh;padding:0 16px 92px}.top{padding:22px 2px 14px;display:flex;align-items:center;justify-content:space-between}.brand{font-weight:800;font-size:19px;letter-spacing:-.4px}.sub{color:var(--muted);font-size:12px;margin-top:3px}.iconbtn{background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:12px;padding:10px}.hero{background:linear-gradient(135deg,#344fc4,#657cf2);color:white;border-radius:22px;padding:20px;margin:5px 0 20px;box-shadow:var(--shadow)}.hero small{opacity:.82;font-weight:600}.hero .big{font-size:36px;font-weight:800;letter-spacing:-1.5px;margin:3px 0}.sectionhead{display:flex;align-items:center;justify-content:space-between;margin:18px 2px 10px}.sectionhead h2{font-size:16px;margin:0}.add{background:var(--accent);color:white;border-radius:12px;padding:10px 14px;font-weight:700}.item{background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:14px;margin:9px 0;box-shadow:var(--shadow)}.itemtop{display:flex;gap:10px;align-items:center}.dot{width:10px;height:10px;border-radius:50%;flex:none}.name{font-weight:750;flex:1;min-width:0}.muted{color:var(--muted);font-size:12px}.start{background:var(--soft);color:var(--accent);font-weight:800;border-radius:11px;padding:9px 12px}.numbers{display:flex;justify-content:space-between;gap:8px;margin:12px 0 6px;font-size:13px}.numbers strong{font-variant-numeric:tabular-nums}.bar{height:7px;border-radius:9px;background:var(--line);overflow:hidden}.bar>i{height:100%;display:block;border-radius:9px;background:var(--accent)}.long{margin-top:10px;display:flex;justify-content:space-between;color:var(--muted);font-size:12px}.nav{position:fixed;bottom:0;left:0;right:0;background:var(--panel);border-top:1px solid var(--line);display:flex;justify-content:center;z-index:5;padding:8px max(8px,env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom))}.navin{width:min(760px,100%);display:grid;grid-template-columns:repeat(5,1fr);gap:3px}.nav button{background:transparent;color:var(--muted);padding:7px 2px;border-radius:11px;font-size:10px}.nav button b{display:block;font-size:19px;margin-bottom:2px}.nav button.active{background:var(--soft);color:var(--accent);font-weight:800}.page{display:none}.page.active{display:block}.panel{background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:15px;margin:10px 0}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.stat{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:13px}.stat strong{display:block;font-size:21px;margin-top:4px}.field{width:100%;padding:12px;border:1px solid var(--line);border-radius:11px;background:var(--bg);color:var(--text);margin:5px 0 12px}.primary{background:var(--accent);color:white;padding:12px 16px;border-radius:12px;font-weight:750}.secondary{background:var(--soft);color:var(--accent);padding:10px 13px;border-radius:11px;font-weight:700}.danger{background:#ffecee;color:#b72e3c;padding:10px 13px;border-radius:11px}.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.timer{font-size:38px;font-weight:850;letter-spacing:-1px;font-variant-numeric:tabular-nums;margin:12px 0}.back{color:var(--accent);background:transparent;padding:8px 0;font-weight:700}.daygrid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;text-align:center}.daygrid div{padding:9px 2px;border-radius:9px;background:var(--bg);font-size:12px}.daygrid .head{background:transparent;color:var(--muted);font-weight:700}.daygrid .good{background:#dff7eb;color:#087a4a}.daygrid .bad{background:#ffeaec;color:#b72e3c}.empty{color:var(--muted);text-align:center;padding:30px 12px}.smallbtn{padding:7px 9px;border-radius:9px;background:var(--soft);color:var(--accent);font-weight:700;font-size:12px}canvas{width:100%;height:180px}.toast{position:fixed;left:50%;bottom:86px;transform:translateX(-50%);background:#172033;color:white;padding:11px 16px;border-radius:12px;display:none;z-index:10;font-size:13px}
+
+.daygrid .daycell{min-height:76px;display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;gap:4px;cursor:default;padding:7px 5px!important;overflow:hidden;border-radius:12px!important}
+.daygrid .daycell.nodata{background:transparent;color:var(--text)}
+.daygrid .daycell[role=button]{cursor:pointer;touch-action:manipulation}.daygrid .daycell[role=button]:active{outline:2px solid var(--accent);outline-offset:-2px}
+.daygrid .daycell.good{background:#d8f4e4;color:#075f3b;border:1px solid #9cdbb7!important}
+.daygrid .daycell.bad{background:#ffebed;color:#922d38;border:1px solid #f1b7bd!important}
+.daygrid .daycell.bad .daymark{color:#c62838;font-size:20px}
+.daygrid .dayhead{display:flex;align-items:center;justify-content:space-between;gap:2px;font-size:13px;font-weight:800;line-height:1.15}
+.daygrid .daycell{position:relative}.daygrid .daymark{font-size:24px;line-height:1;font-weight:950;color:#07834f;text-shadow:0 0 .3px currentColor;position:absolute;left:50%;bottom:9px;transform:translateX(-50%);z-index:2}
+.daygrid .dayitems{display:flex;flex-direction:column;align-items:stretch;gap:1px;width:100%;font-size:8px;line-height:1.15;text-align:left}
+.daygrid .dayitem{display:flex;align-items:flex-start;gap:2px;min-width:0;overflow-wrap:anywhere;word-break:break-word}
+.daygrid .dayitemmark{font-weight:900;flex:none}
+.daygrid .dayitem.done .dayitemmark{color:var(--green)}
+.daygrid .dayitem.missed .dayitemmark{color:var(--red)}
+.daygrid .dayitem.pending .dayitemmark{color:var(--muted)}
+.daygrid .dayitemname{min-width:0}
+.homeTimer{display:flex;align-items:center;justify-content:space-between;padding:7px 10px;margin:9px 0;border-radius:10px;background:var(--bg)}
+.homeTimer strong{font-size:18px;font-variant-numeric:tabular-nums;letter-spacing:.3px}
+.reportRanges{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin:10px 0 14px}.reportRanges button{padding:9px 4px;font-size:13px}.reportRanges .activeRange{background:var(--accent);color:white}#reportStats{margin-top:12px}.reportLine{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}.reportLine:last-child{border-bottom:0}.reportLine>span{display:flex;align-items:center;gap:9px}#chart{width:100%;height:auto;display:block}
+.item[draggable="true"]{cursor:grab}
+.item.dragging{opacity:.45;border:1px dashed var(--accent)}
+.dragHandle{color:var(--muted);font-size:20px;cursor:grab;user-select:none;touch-action:none;margin-right:4px}
+
+.heatmap{display:grid;grid-auto-flow:column;grid-template-rows:repeat(7,13px);grid-auto-columns:13px;gap:4px;overflow-x:auto;padding:8px 0}
+.heat{width:13px;height:13px;border-radius:3px;display:inline-block;background:var(--line)}
+.heat.h0{background:var(--line)}.heat.h1{background:#c9e8d7}.heat.h2{background:#8fd0ac}.heat.h3{background:#4aaa78}.heat.h4{background:#16764d}
+.heatLegend{display:flex;align-items:center;gap:5px;margin-top:7px}.compareCard{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:12px;min-width:0}.compareCard strong{display:block;font-size:19px;margin-top:4px}.miniProgress{height:7px;background:var(--line);border-radius:8px;overflow:hidden;margin-top:7px}.miniProgress i{display:block;height:100%;background:var(--accent)}
+.milestone{padding:9px 0;border-bottom:1px solid var(--line)}.milestone:last-child{border:0}.milestoneTop{display:flex;justify-content:space-between;gap:8px;font-size:13px}.streakRow{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--line)}.streakRow:last-child{border:0}
+
+
+.statusTable{width:100%;border-collapse:collapse;margin-top:8px;font-size:14px}
+.statusTable th,.statusTable td{padding:11px 8px;border-bottom:1px solid var(--line);text-align:left}
+.statusTable th:last-child,.statusTable td:last-child{text-align:center;width:72px}
+.statusTable th{color:var(--muted);font-weight:700;font-size:12px}
+.statusMark{font-weight:900;font-size:18px}
+.statusMark.done{color:var(--green)}
+.statusMark.missed{color:var(--red)}
+
+/* v2.4.6: takvim işaretleri daha belirgin */
+.daygrid .daycell{
+  min-height:88px;
+  padding:9px 7px!important;
+  border-radius:14px!important;
+}
+.daygrid .dayhead{
+  font-size:15px;
+  line-height:1.2;
+}
+.daygrid .daymark{
+  font-size:27px;
+  line-height:1;
+  font-weight:1000;
+  text-shadow:0 0 1px currentColor;
+}
+.daygrid .daycell.good{
+  background:#c8f0d9;
+  color:#075b38;
+  border:1.5px solid #69c995!important;
+  box-shadow:inset 0 0 0 1px #a2e0bb;
+}
+.daygrid .daycell.bad{
+  background:#ffe0e3;
+  color:#8e1e2b;
+  border:1.5px solid #e9959e!important;
+  box-shadow:inset 0 0 0 1px #f4bbc1;
+}
+.daygrid .daycell.bad .daymark{
+  color:#b91f32;
+  font-size:27px;
+}
+@media (max-width:380px){
+  .daygrid{gap:4px}
+  .daygrid .daycell{min-height:82px;padding:8px 5px!important}
+  .daygrid .dayhead{font-size:14px}
+  .daygrid .daymark{font-size:25px}
+}
+
+</style>
+</head>
+<body>
+<div class="app" id="app">
+<header class="top"><div><div class="brand">Sorumluluk Çetelesi</div><div class="sub">IndexedDB kayıtlı sürüm · v2.6.1</div><div class="sub" id="dateLabel"></div></div><button class="iconbtn" onclick="toggleTheme()" aria-label="Tema">☼ / ☾</button></header>
+<section id="home" class="page active">
+<div class="hero"><small>BUGÜN TOPLAM SÜRE (DAKİKA TÜRÜ)</small><div class="big" id="todayTotal">00:00:00</div><small>Tüm sorumlulukların toplamı</small></div>
+<div class="sectionhead"><h2>Sorumluluklarım</h2><button class="add" onclick="showAdd()">＋ Ekle</button></div>
+<div id="responsibilityList"></div>
+</section>
+<section id="detail" class="page"><button class="back" onclick="go('home')">‹ Ana sayfa</button><div id="detailContent"></div></section>
+<section id="calendar" class="page"><div class="sectionhead"><h2>Takvim</h2><select class="field" style="width:auto;margin:0" id="calWho" onchange="renderCalendar()"><option value="all">Tüm sorumluluklar</option></select></div><div class="panel"><div class="row" style="justify-content:space-between"><button class="secondary" onclick="shiftMonth(-1)">‹</button><strong id="monthTitle"></strong><button class="secondary" onclick="shiftMonth(1)">›</button></div><div class="daygrid" id="calendarGrid" style="margin-top:12px"></div><p class="muted">Tüm sorumluluklar görünümünde bir güne dokunarak aşağıdaki durum tablosunda her sorumluluğu görebilirsin: ✓ hedef tamamlandı · ✕ gün sonunda hedef tamamlanmadı · boş durum henüz bekliyor. Sorumluluk seçerek kendi takvimini ayrıca görüntüleyebilirsin.</p><div id="dayInfo"></div></div></section>
+<section id="totals" class="page"><div class="sectionhead"><h2>Toplam</h2></div><div id="totalList"></div></section>
+<section id="sessionsPage" class="page"><div class="sectionhead"><h2>Seans Takvimi</h2><select class="field" style="width:auto;margin:0" id="sessionWho" onchange="renderSessionCalendar()"><option value="all">Tüm sorumluluklar</option></select></div><div class="panel"><div class="row" style="justify-content:space-between"><button class="secondary" onclick="shiftSessionMonth(-1)">‹</button><strong id="sessionMonthTitle"></strong><button class="secondary" onclick="shiftSessionMonth(1)">›</button></div><div class="daygrid" id="sessionCalendarGrid" style="margin-top:12px"></div><p class="muted">✓ O günkü tüm seanslar minimum süreyi karşıladı. ✕ En az bir seans minimum sürenin altında kaldı. Günlük sonuç, sorumluluk başına tek kez gösterilir.</p><div id="sessionDayInfo"></div></div><div class="panel"><div class="sectionhead"><h2>Günlük Toplamlar</h2></div><div id="dailyTotalsTable"></div></div></section>
+<section id="reports" class="page">
+<div class="sectionhead"><h2>Raporlar ve İstatistikler</h2><select id="reportWho" class="field" style="width:auto;margin:0" onchange="renderReports()"><option value="all">Tümü</option></select></div>
+<div class="row reportRanges"><button class="secondary activeRange" data-range="day" onclick="setReportRange('day')">Günlük</button><button class="secondary" data-range="week" onclick="setReportRange('week')">Haftalık</button><button class="secondary" data-range="month" onclick="setReportRange('month')">Aylık</button><button class="secondary" data-range="year" onclick="setReportRange('year')">Yıllık</button></div>
+<div class="panel"><div class="muted" id="reportPeriod">Bugün</div><div class="grid" id="reportStats"></div></div>
+<div class="panel"><strong id="chartTitle">İlerleme grafiği</strong><canvas id="chart" width="650" height="220"></canvas></div>
+<div class="grid" id="comparisonStats"></div>
+<div class="panel"><strong>Streak özeti</strong><div id="streakBreakdown"></div></div>
+<div class="panel"><strong>Aktivite haritası · son 12 hafta</strong><p class="muted">Her kutu bir günü gösterir. Renk koyulaştıkça günlük hedefe yaklaşmışsın.</p><div id="activityMap" class="heatmap"></div><div class="heatLegend muted"><span>Az</span><i class="heat h0"></i><i class="heat h1"></i><i class="heat h2"></i><i class="heat h3"></i><i class="heat h4"></i><span>Çok</span></div></div>
+<div class="panel"><strong>İlerleme geçmişi</strong><div id="progressHistory"></div></div>
+<div class="panel"><strong>Kilometre taşları</strong><div id="milestones"></div></div>
+<div class="panel"><strong>En verimli gün ve saat</strong><div id="productivityStats"></div></div>
+<div class="panel"><strong>Uzun vadeli hedef tahmini</strong><div id="etaStats"></div></div>
+<div class="panel"><strong>Toplam ilerleme</strong><div id="reportBreakdown"></div></div>
+</section>
+<section id="settings" class="page"><div class="sectionhead"><h2>Ayarlar</h2></div><div class="panel"><strong>☁️ Bulut senkronizasyonu</strong><p class="muted">Aynı hesabı telefonunda ve bilgisayarında kullanarak sorumluluk kayıtlarını eşitle. Önce e-posta ve şifrenle giriş yap veya hesap oluştur.</p><div id="cloudStatus" class="muted" style="margin:8px 0">Bağlantı hazırlanıyor…</div><div id="cloudAuthForm"><label class="muted" for="cloudEmail">E-posta</label><input class="field" id="cloudEmail" type="email" autocomplete="email" placeholder="E-posta adresin"><label class="muted" for="cloudPassword">Şifre</label><input class="field" id="cloudPassword" type="password" autocomplete="current-password" placeholder="En az 6 karakter"><div class="row"><button class="primary" onclick="cloudSignIn()">Giriş yap</button><button class="secondary" onclick="cloudSignUp()">Hesap oluştur</button></div></div><div id="cloudAccount" style="display:none"><div id="cloudUserEmail" class="muted" style="margin:8px 0"></div><div class="row"><button class="primary" onclick="cloudSyncNow()">Şimdi eşitle</button><button class="secondary" onclick="cloudSignOut()">Çıkış yap</button></div></div><p class="muted" style="margin-top:10px">İlk eşitlemede bu cihazda ve bulutta ayrı ayrı kayıt varsa hangisinin kullanılacağını sorar. Otomatik eşitleme, giriş yaptıktan sonra kayıt değişikliklerinde devreye girer. Yine de düzenli yedek almanı öneririm.</p></div><div class="panel"><strong>Görünüm</strong><p class="muted">Açık veya koyu tema seç.</p><div class="row"><button class="secondary" onclick="setTheme('light')">Açık tema</button><button class="secondary" onclick="setTheme('dark')">Koyu tema</button></div></div><div class="panel"><strong>Yedekleme</strong><p class="muted">Tüm kayıtlarını dosyaya aktar veya daha önce aldığın yedeği geri yükle.</p><div class="row"><button class="primary" onclick="backup()">Yedek oluştur</button><label class="secondary">Yedekten geri yükle<input type="file" accept="application/json" hidden onchange="restore(event)"></label></div></div><div class="panel"><strong>Excel / CSV dışa aktarma</strong><p class="muted">Kayıtlarını Excel veya başka bir tablo programında açabileceğin CSV dosyaları olarak indir. Çalışma kayıtları ve sorumluluk özeti ayrı dosyalardır.</p><div class="row"><button class="primary" onclick="exportSessionsCSV()">Çalışma kayıtlarını indir</button><button class="secondary" onclick="exportSummaryCSV()">Sorumluluk özetini indir</button></div></div><div class="panel"><strong>Arşiv</strong><div id="archiveList"></div></div><div class="panel"><strong>Veriler ve güvenlik</strong><p class="muted">Kayıtların bu cihazda IndexedDB veritabanında saklanır. Eski localStorage kayıtların ilk açılışta otomatik olarak buraya aktarılır ve eski kopya güvenlik için silinmez. Her işlemden sonra otomatik kaydedilir. Önceki kayıt durumunun bir kurtarma kopyası da tutulur. Chrome'un site/tarayıcı verilerini silmek veya cihazı değiştirmek kayıtları kaybettirebilir. Bu nedenle düzenli olarak yedek oluşturup dosyayı telefonunun dışında da sakla.</p><button class="secondary" onclick="backup()">Şimdi yedek al</button></div></section>
+</div>
+<nav class="nav"><div class="navin" style="grid-template-columns:repeat(6,1fr)"><button class="active" data-page="home" onclick="go('home')"><b>⌂</b>Ana Sayfa</button><button data-page="calendar" onclick="go('calendar')"><b>▦</b>Takvim</button><button data-page="totals" onclick="go('totals')"><b>∑</b>Toplam</button><button data-page="sessionsPage" onclick="go('sessionsPage')"><b>◷</b>Seans</button><button data-page="reports" onclick="go('reports')"><b>▥</b>Raporlar</button><button data-page="settings" onclick="go('settings')"><b>⚙</b>Ayarlar</button></div></nav>
+<div class="toast" id="toast"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL="https://okvidgvwbaqgmhjhpmyf.supabase.co";
+const SUPABASE_KEY="sb_publishable_e-zgdLvBeT-oF0RM0uI9Iw_aNvq6dJT";
+const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+let cloudUser=null,cloudBusy=false,cloudTimer=null,cloudReady=false;
+const KEY='sc-v1-data', COLORS=['#4776e6','#e05d73','#159b78','#a06ad8','#d18a31','#239bb4','#bd6b9a'];
+function loadLegacyDB(){
+  const empty={items:[],sessions:[],theme:'light'};
+  for(const key of [KEY,KEY+'-recovery']){try{const raw=localStorage.getItem(key);if(!raw)continue;const parsed=JSON.parse(raw);if(parsed&&Array.isArray(parsed.items)&&Array.isArray(parsed.sessions))return {...empty,...parsed};}catch(_){}}
+  return empty;
+}
+const DB_NAME='sorumluluk-cetelesi-db', DB_STORE='appData';
+let idb=null;
+function openAppDB(){return new Promise((resolve,reject)=>{if(!('indexedDB' in window)){reject(new Error('IndexedDB desteklenmiyor'));return;}const req=indexedDB.open(DB_NAME,1);req.onupgradeneeded=()=>{if(!req.result.objectStoreNames.contains(DB_STORE))req.result.createObjectStore(DB_STORE)};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error||new Error('Veritabanı açılamadı'));});}
+function readIDB(){return new Promise((resolve,reject)=>{const tx=idb.transaction(DB_STORE,'readonly'),req=tx.objectStore(DB_STORE).get('main');req.onsuccess=()=>resolve(req.result||null);req.onerror=()=>reject(req.error);});}
+function writeIDB(value){return new Promise((resolve,reject)=>{if(!idb){reject(new Error('Veritabanı hazır değil'));return;}const tx=idb.transaction(DB_STORE,'readwrite');tx.objectStore(DB_STORE).put(value,'main');tx.oncomplete=()=>resolve(true);tx.onerror=()=>reject(tx.error||new Error('Kayıt yazılamadı'));tx.onabort=()=>reject(tx.error||new Error('Kayıt iptal edildi'));});}
+function loadDB(){return loadLegacyDB();}
+function save(){const payload=JSON.parse(JSON.stringify(db));writeIDB(payload).then(()=>{window.__idbSaveError=false;if(cloudUser&&cloudReady)scheduleCloudSync();}).catch(err=>{console.error('IndexedDB kayıt hatası:',err);window.__idbSaveError=true;toast('Veri tabanına kaydedilemedi. Hemen yedek oluştur.');});return true;}
+const $=id=>document.getElementById(id), pad=n=>String(n).padStart(2,'0');
+let db=loadDB(), current=null, month=new Date(), sessionMonth=new Date(), selectedDay=null, selectedSessionDay=null, ticker=null, reportRange='day';
+function fmt(sec){sec=Math.max(0,Math.floor(sec));return `${pad(Math.floor(sec/3600))}:${pad(Math.floor(sec%3600/60))}:${pad(sec%60)}`}
+function dayKey(d=new Date()){return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`}
+function startOfDay(k){return new Date(k+'T00:00:00').getTime()}
+function elapsed(s){return s.paused? s.elapsed : s.elapsed+(Date.now()-s.started)/1000}
+function unitOf(x){return x.unit||'minute'}
+function unitLabel(u){return u==='page'?'sayfa':u==='count'?'adet':'dk'}
+function unitLongLabel(u){return u==='page'?'sayfa':u==='count'?'adet':'saat'}
+function sessionValue(s,x){return unitOf(x)==='minute'?(s.seconds||0)/60:(s.amount||0)}
+function totalFor(id,k){let x=db.items.find(a=>a.id===id);if(!x)return 0;return db.sessions.filter(s=>s.id===id&&s.day===k).reduce((a,s)=>a+sessionValue(s,x),0)}
+function todayLive(id){return db.sessions.filter(s=>s.id===id&&s.day===dayKey()).reduce((a,s)=>a+(s.seconds||0),0)+db.items.filter(x=>x.id===id).reduce((a,x)=>a+((x.running||x.paused)&&(!x.sessionStartedAt||dayKey(new Date(x.sessionStartedAt))===dayKey())?elapsed(x):0),0)}
+function allToday(){return db.sessions.filter(s=>s.day===dayKey()&&db.items.some(x=>x.id===s.id&&!x.archived&&unitOf(x)==='minute')).reduce((a,s)=>a+(s.seconds||0),0)+db.items.filter(x=>!x.archived&&unitOf(x)==='minute').reduce((a,x)=>a+(x.running||x.paused||x.elapsed>0?Number(x.elapsed||0)+(x.running?(Date.now()-x.started)/1000:0):0),0)}
+function toast(t){$('toast').textContent=t;$('toast').style.display='block';setTimeout(()=>$('toast').style.display='none',2300)}
+function go(p){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));$(p).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===p));renderAll()}
+
+function monthKey(k=dayKey()){return String(k).slice(0,7)}
+function goalForMonth(x,mk=monthKey()){const v=x.monthlyGoals?.[mk];if(v!=null&&v!==''&&Number(v)>0)return Number(v);return mk<monthKey()?Number(x.legacyDailyGoal??x.daily??1):null}
+function monthLabel(mk){const [y,m]=mk.split('-').map(Number);return new Intl.DateTimeFormat('tr-TR',{month:'long',year:'numeric'}).format(new Date(y,m-1,1))}
+function shiftMonthKey(mk,n){const [y,m]=mk.split('-').map(Number),d=new Date(y,m-1+n,1);return monthKey(dayKey(d))}
+function goalForDate(x,k){return goalForMonth(x,monthKey(k))}
+function addDaysKey(k,n){
+  const d=new Date(k+'T00:00:00');d.setDate(d.getDate()+n);return dayKey(d);
+}
+function totalAccumulatedFor(id){
+  const x=db.items.find(a=>a.id===id);if(!x)return 0;
+  let total=db.sessions.filter(s=>s.id===id).reduce((a,s)=>a+sessionValue(s,x),0);
+  if(unitOf(x)==='minute'&&(x.running||(x.paused&&Number(x.sessionStartedAt)>0))){
+    total+=Math.max(0,elapsed(x))/60;
+  }
+  return total;
+}
+// Birikim başlangıç tarihinden itibaren sırayla dağıtılır. Her ay kendi
+// günlük kotasını kullanır; ayın kotasını aşan süre sonraki aya devreder.
+// Hedefi tanımlanmamış ayda süre korunur, o ay için tik üretilmez.
+function ensureMonthlyGoals(){
+  db.items.forEach(x=>{
+    if(!x.monthlyGoals||typeof x.monthlyGoals!=='object')x.monthlyGoals={};
+    // Eski sürümden gelen genel hedefi, aylık planı olmayan geçmiş aylar için
+    // geriye dönük uyumluluk tabanı olarak bir kez sakla.
+    if(x.legacyDailyGoal==null)x.legacyDailyGoal=Number(x.daily||1);
+    if(!Object.keys(x.monthlyGoals).length)x.monthlyGoals[monthKey()]=Number(x.daily||1);
+  });
+}
+function renderMonthlyGoalEditor(id){
+  const x=db.items.find(a=>a.id===id);if(!x)return '';
+  const first=monthKey(),rows=[];
+  for(let i=0;i<12;i++){
+    const mk=shiftMonthKey(first,i),value=goalForMonth(x,mk);
+    rows.push(`<label class="long" style="gap:12px"><span>${monthLabel(mk)}</span><input class="field" style="width:110px;margin:0" type="number" min="0.1" step="0.1" data-goal-month="${mk}" value="${value==null?'':value}" placeholder="Hedef gir"></label>`);
+  }
+  return `<div class="panel" id="monthlyGoalPanel"><div class="long"><strong>Aylık hedef planı</strong><span class="muted">${unitLabel(unitOf(x))}</span></div><p class="muted">Her ayın hedefini ayrı belirle. Bir ayın kotasını aşan çalışma süresi sonraki aya devreder; tanımlanmamış aylar için tik oluşturulmaz.</p>${rows.join('')}<div class="row" style="margin-top:12px"><button class="primary" onclick="saveMonthlyGoalPlan('${id}')">Hedefleri kaydet</button><button class="secondary" onclick="editAnyMonthGoal('${id}')">Başka ayı düzenle</button></div></div>`;
+}
+function saveMonthlyGoalPlan(id){
+  const x=db.items.find(a=>a.id===id);if(!x)return;
+  const fields=[...document.querySelectorAll('[data-goal-month]')];
+  for(const field of fields){if(field.value.trim()==='')continue;const v=Number(field.value);if(!Number.isFinite(v)||v<=0){alert('Girilen hedefler sıfırdan büyük olmalı.');field.focus();return;}}
+  x.monthlyGoals=x.monthlyGoals||{};
+  fields.forEach(field=>{if(field.value.trim()!=='')x.monthlyGoals[field.dataset.goalMonth]=Number(field.value);});
+  save();renderAll();toast('Aylık hedefler kaydedildi');
+}
+function editAnyMonthGoal(id){
+  const x=db.items.find(a=>a.id===id);if(!x)return;
+  const mk=prompt('Düzenlemek istediğin ayı YYYY-AA biçiminde yaz:',monthKey());if(mk===null)return;
+  if(!/^\d{4}-(0[1-9]|1[0-2])$/.test(mk)){alert('Ay biçimi YYYY-AA olmalı. Örnek: 2027-02');return;}
+  const value=prompt(monthLabel(mk)+' için günlük hedef ('+unitLabel(unitOf(x))+'):',String(goalForMonth(x,mk)));if(value===null)return;
+  const v=Number(value.replace(',','.'));if(!Number.isFinite(v)||v<=0){alert('Hedef sıfırdan büyük olmalı.');return;}
+  x.monthlyGoals=x.monthlyGoals||{};x.monthlyGoals[mk]=v;save();renderAll();toast(monthLabel(mk)+' hedefi güncellendi');
+}
+// Toplam çalışma süresi kronolojik günlük kotalara dağıtılır. Bir ayın
+// hedefi yalnızca o ayın günlerini belirler. Ay sonundaki fazla süre sonraki
+// ayın havuzuna devreder. Hedef tanımlanmamış ay süre tüketmez, sadece devri taşır.
+function earnedDaysFor(id,mk){
+  const x=db.items.find(a=>a.id===id);if(!x)return new Set();
+  let remaining=totalAccumulatedFor(id),cursor=String(x.createdAt||dayKey()).slice(0,10);
+  const earned=new Set();let guard=0;
+  while(guard++<20000){
+    const quota=goalForDate(x,cursor);
+    if(!(quota>0)){cursor=addDaysKey(cursor,1);continue;}
+    if(remaining+1e-9<quota)break;
+    earned.add(cursor);
+    remaining-=quota;
+    cursor=addDaysKey(cursor,1);
+  }
+  return new Set([...earned].filter(k=>monthKey(k)===mk));
+}
+
+// Ana sayfa göstergesi: toplam birikimi aylık kotalara sırayla dağıtır ve
+// sıradaki tik için kalan bakiyeyi, o tikin ait olduğu ayın hedefiyle gösterir.
+function nextMonthlyProgress(id){
+  const x=db.items.find(a=>a.id===id);if(!x)return null;
+  let remaining=totalAccumulatedFor(id),cursor=String(x.createdAt||dayKey()).slice(0,10),guard=0;
+  while(guard++<20000){
+    const quota=goalForDate(x,cursor);
+    if(!(quota>0)){cursor=addDaysKey(cursor,1);continue;}
+    if(remaining+1e-9<quota){
+      return {month:monthKey(cursor),quota,progress:Math.max(0,remaining),nextDay:cursor};
+    }
+    remaining-=quota;
+    cursor=addDaysKey(cursor,1);
+  }
+  return null;
+}
+
+function showAdd(){
+  let name=prompt('Sorumluluğun adı:');if(!name||!name.trim())return;
+  let kind=prompt('Ölçü türü: dakika, sayfa veya sayı yaz.','dakika');if(kind===null)return;
+  kind=kind.trim().toLocaleLowerCase('tr-TR');
+  let unit=kind==='sayfa'?'page':(kind==='sayı'||kind==='sayi'||kind==='adet'?'count':(kind==='dakika'||kind==='dk'?'minute':null));
+  if(!unit){alert('Lütfen dakika, sayfa veya sayı seçeneklerinden birini yaz.');return}
+  let label=unitLabel(unit),daily=Number(prompt('Günlük hedef ('+label+'):',''+(unit==='minute'?30:5)));if(!Number.isFinite(daily)||daily<=0)return;
+  let longLabel=unit==='minute'?'saat':label,longDefault=unit==='minute'?100:100;
+  let long=Number(prompt('Uzun vadeli hedef ('+longLabel+'):',''+longDefault));if(!Number.isFinite(long)||long<=0)return;
+  let minSessionMinutes=0;if(unit==='minute'){let raw=prompt('Minimum seans süresi (dakika). 0 yazarsan seans kontrolü kapalı olur:','0');if(raw===null)return;minSessionMinutes=Number(raw.replace(',','.'));if(!Number.isFinite(minSessionMinutes)||minSessionMinutes<0){alert('Minimum seans süresi 0 veya daha büyük olmalı.');return}}
+  db.items.push({id:crypto.randomUUID(),name:name.trim(),createdAt:dayKey(),unit,daily,monthlyGoals:{[monthKey()]:daily},longGoal:unit==='minute'?long*60:long,hours:unit==='minute'?long:undefined,minSessionMinutes,color:COLORS[db.items.length%COLORS.length],archived:false,elapsed:0,started:0,paused:true});
+  save();renderAll()
+}
+function openDetail(id){current=id;go('detail')}
+function addAmount(id){
+  let x=db.items.find(a=>a.id===id);if(!x||unitOf(x)==='minute')return;
+  let v=prompt('Kaç '+unitLabel(unitOf(x))+' tamamladın?','1');if(v===null)return;
+  let amount=Number(v.replace(',','.'));if(!Number.isFinite(amount)||amount<=0){alert('Lütfen sıfırdan büyük geçerli bir sayı gir.');return}
+  db.sessions.push({id:x.id,day:dayKey(),amount,unit:unitOf(x),createdAt:Date.now()});ensureMonthlyGoals();save();renderAll();toast(amount+' '+unitLabel(unitOf(x))+' eklendi')
+}
+
+function start(id){let x=db.items.find(a=>a.id===id);if(!x||unitOf(x)!=='minute')return;if(x.running)return;if(x.elapsed>0||x.paused===true&&x.sessionStartedAt){alert('Önce mevcut seansı “Bitir ve kaydet” ile kapat.');return}const now=Date.now();x.elapsed=0;x.sessionStartedAt=now;x.started=now;x.paused=false;x.running=true;save();renderAll();toast(x.name+' seansı başladı')}
+function pause(id){finish(id)}
+function editTimer(id){
+  let x=db.items.find(a=>a.id===id);if(!x||unitOf(x)!=='minute')return;
+  const currentSeconds=(x.running||x.paused)?elapsed(x):0;
+  const currentText=fmt(currentSeconds);
+  const answer=prompt('Kronometre süresini değiştir. HH:MM:SS veya dakika olarak yaz. Örnek: 00:25:30 ya da 25,5. Sıfır yazarak sıfırlayabilirsin.',currentText);
+  if(answer===null)return;
+  let value=answer.trim(),seconds;
+  if(/^\\d{1,3}:\\d{1,2}:\\d{1,2}$/.test(value)){
+    const parts=value.split(':').map(Number);if(parts[1]>59||parts[2]>59){alert('Dakika ve saniye 0-59 arasında olmalı.');return}
+    seconds=parts[0]*3600+parts[1]*60+parts[2];
+  }else{
+    const minutes=Number(value.replace(',','.'));if(!Number.isFinite(minutes)||minutes<0){alert('Geçerli bir süre gir.');return}
+    seconds=Math.round(minutes*60);
+  }
+  const wasRunning=!!x.running;
+  x.elapsed=seconds;x.started=wasRunning?Date.now():0;x.paused=!wasRunning;
+  x.sessionStartedAt=seconds>0?(x.sessionStartedAt||Date.now()):0;
+  save();renderAll();toast('Kronometre süresi güncellendi');
+}
+function finish(id){
+  let x=db.items.find(a=>a.id===id);if(!x||unitOf(x)!=='minute')return;
+  let seconds=0;
+  if(x.running){
+    const now=Date.now(), midnight=new Date(new Date(x.started).getFullYear(),new Date(x.started).getMonth(),new Date(x.started).getDate()+1).getTime();
+    const end=Math.min(now,midnight);
+    seconds=Math.max(0,Math.floor((x.elapsed||0)+(end-x.started)/1000));
+  }else if(x.paused===true){
+    seconds=Math.max(0,Math.floor(x.elapsed||0));
+  }else return;
+  const minSec=Math.max(0,Number(x.minSessionMinutes)||0)*60;
+  const passed=!minSec||seconds>=minSec;
+  if(seconds>0&&minSec&&!passed){
+    const confirmStop=confirm('Minimum seans süresine henüz ulaşmadın.\nGeçen süre: '+fmt(seconds)+'\nMinimum süre: '+fmt(minSec)+'\n\nYine de seansı bitirmek istiyor musun?\n\nTamam: Seansı bitir ve ✕ olarak kaydet.\nİptal: Seansa devam et.');
+    if(!confirmStop)return;
+  }
+  if(seconds>0){db.sessions.push({id:x.id,day:dayKey(new Date(x.sessionStartedAt||x.started||Date.now())),seconds,startedAt:x.sessionStartedAt||x.started||Date.now(),endedAt:Date.now(),minSessionSeconds:minSec,sessionPassed:passed});}
+  x.elapsed=0;x.started=0;x.sessionStartedAt=0;x.paused=true;x.running=false;
+  ensureMonthlyGoals();save();renderAll();toast('Çalışma kaydedildi');
+}
+function editItem(id){
+  let x=db.items.find(a=>a.id===id);if(!x)return;
+  let n=prompt('Sorumluluk adı:',x.name);if(n===null)return;
+  let d=Number(prompt('Günlük hedef ('+unitLabel(unitOf(x))+'):',x.daily));
+  let currentLong=unitOf(x)==='minute'?(x.longGoal??((x.hours||100)*60))/60:(x.longGoal??100);
+  let h=Number(prompt('Uzun vadeli hedef ('+unitLongLabel(unitOf(x))+'):',currentLong));
+  if(n.trim())x.name=n.trim();if(d>0){x.daily=d;x.monthlyGoals=x.monthlyGoals||{};x.monthlyGoals[monthKey()]=d;}
+  if(h>0){x.longGoal=unitOf(x)==='minute'?h*60:h;if(unitOf(x)==='minute')x.hours=h}
+  if(unitOf(x)==='minute'){let ms=prompt('Minimum seans süresi (dakika). 0 yazarsan seans kontrolü kapalı olur:',String(x.minSessionMinutes||0));if(ms!==null){let v=Number(ms.replace(',','.'));if(Number.isFinite(v)&&v>=0)x.minSessionMinutes=v;else alert('Minimum seans süresi 0 veya daha büyük olmalı.')}}
+  save();renderAll()
+}
+function archive(id){
+  let x=db.items.find(a=>a.id===id);if(!x)return;
+  if(!confirm(x.name+' arşive taşınsın mı?\n\nArşiv, sorumluluğu ana listeden kaldırır. Geçmiş kayıtların saklanır ve istediğinde geri yükleyebilirsin.'))return;
+  if(unitOf(x)==='minute'&&(x.running||x.paused)&&elapsed(x)>0){
+    const seconds=Math.floor(elapsed(x)),first=x.sessionStartedAt||x.started||Date.now();
+    const minSec=Math.max(0,Number(x.minSessionMinutes)||0)*60;db.sessions.push({id:x.id,day:dayKey(new Date(first)),seconds,startedAt:first,endedAt:Date.now(),minSessionSeconds:minSec,sessionPassed:!minSec||seconds>=minSec});
+  }
+  x.elapsed=0;x.started=0;x.sessionStartedAt=0;x.running=false;x.paused=true;
+  x.archived=true;save();current=null;go('home');toast('Sorumluluk arşive taşındı');
+}
+function deleteItem(id){
+  const x=db.items.find(a=>a.id===id);if(!x)return;
+  if(!confirm('“'+x.name+'” ve bu sorumluluğa ait TÜM geçmiş kayıtlar kalıcı olarak silinsin mi? Bu işlem geri alınamaz.'))return;
+  db.sessions=db.sessions.filter(a=>a.id!==id);
+  db.items=db.items.filter(a=>a.id!==id);
+  if(current===id)current=null;
+  save();renderAll();go('home');toast('Sorumluluk ve kayıtları silindi');
+}
+let draggingResponsibility=null;
+function dragResponsibility(e){draggingResponsibility=e.currentTarget.dataset.itemId;e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',draggingResponsibility);e.currentTarget.classList.add('dragging')}
+function allowResponsibilityDrop(e){e.preventDefault();e.dataTransfer.dropEffect='move'}
+function dropResponsibility(e){e.preventDefault();let from=draggingResponsibility||e.dataTransfer.getData('text/plain'),to=e.currentTarget.dataset.itemId;if(!from||!to||from===to)return;let active=db.items.filter(x=>!x.archived),a=active.findIndex(x=>x.id===from),b=active.findIndex(x=>x.id===to);if(a<0||b<0)return;let moved=active.splice(a,1)[0];active.splice(b,0,moved);let archived=db.items.filter(x=>x.archived);db.items=[...active,...archived];save();renderHome()}
+function clearResponsibilityDrag(){draggingResponsibility=null;document.querySelectorAll('.item.dragging').forEach(x=>x.classList.remove('dragging'))}
+function renderHome(){
+  $('todayTotal').textContent=fmt(allToday());
+  let arr=db.items.filter(x=>!x.archived);
+  $('responsibilityList').innerHTML=arr.length?arr.map(x=>{
+    let u=unitOf(x),dailyGoal=goalForMonth(x,monthKey()),sec=todayLive(x.id),value=u==='minute'?sec/60:totalFor(x.id,dayKey());
+    const carry=nextMonthlyProgress(x.id);
+    const displayGoal=carry?.quota??dailyGoal;
+    const displayValue=carry?.progress??(u==='minute'?value:value);
+    const displayMonth=carry?.month??monthKey();
+    let pct=displayGoal?Math.min(100,displayValue/displayGoal*100):0;
+    let long=u==='minute'
+      ? db.sessions.filter(s=>s.id===x.id).reduce((a,s)=>a+(s.seconds||0),0)+((x.running||x.paused)?elapsed(x):0)
+      : db.sessions.filter(s=>s.id===x.id).reduce((a,s)=>a+(s.amount||0),0);
+    let goal=u==='minute'?(x.longGoal??((x.hours||100)*60)):(x.longGoal??100);
+    let met=displayGoal!=null&&displayValue>=displayGoal,progress=`${Number(displayValue.toFixed(1))} ${unitLabel(u)} / ${displayGoal==null?'Hedef belirlenmedi':displayGoal+' '+unitLabel(u)}`;
+    let timer=fmt((x.running||x.paused)?elapsed(x):0),remaining=displayGoal==null?0:Math.max(0,displayGoal-displayValue);
+    let timerBlock=u==='minute'?`<div class="homeTimer"><span class="muted">Kronometre</span><strong>${timer}</strong><button class="smallbtn" onclick="editTimer('${x.id}')">Süreyi düzenle</button></div>`:
+      `<div class="homeTimer"><span class="muted">Manuel ekleme</span><button class="smallbtn" onclick="addAmount('${x.id}')">＋ ${unitLabel(u)} ekle</button></div>`;
+    let longText=u==='minute'?`${(long/3600).toFixed(1)} / ${(goal/60).toFixed(1)} saat`:`${Number(long.toFixed(1))} / ${goal} ${unitLongLabel(u)}`;
+    return `<div class="item" draggable="true" data-item-id="${x.id}" ondragstart="dragResponsibility(event)" ondragover="allowResponsibilityDrop(event)" ondrop="dropResponsibility(event)" ondragend="clearResponsibilityDrag()"><div class="itemtop"><span class="dragHandle" title="Sürükleyerek sırala">⠿</span><span class="dot" style="background:${x.color}"></span><span class="name" onclick="openDetail('${x.id}')">${esc(x.name)}</span>${u==='minute'?`<button class="start" onclick="${x.running?`pause('${x.id}')`:`start('${x.id}')`}">${x.running?'■':'▶'}</button>`:''}</div>${timerBlock}<div class="long"><span>${monthLabel(displayMonth)} hedefi</span><strong>${progress}</strong></div><div class="numbers"><span class="muted">${met?'✓ Hedef tamamlandı':`${u==='minute'?Number(remaining.toFixed(1)):Number(remaining.toFixed(1))} ${unitLabel(u)} kaldı`}</span></div><div class="bar"><i style="width:${pct}%;background:${x.color}"></i></div><div class="long"><span>Minimum seans</span><strong>${u==='minute'?(x.minSessionMinutes?x.minSessionMinutes+' dakika':'Kapalı'):'Uygulanmaz'}</strong></div><div class="long"><span>Uzun vadeli hedef</span><strong>${longText} · %${Math.min(100,long/goal*100).toFixed(1)}</strong></div><div class="long"><span>🔥 Güncel seri</span><strong>${streakFor(x.id).current} gün · Rekor ${streakFor(x.id).best} gün</strong></div></div>`
+  }).join(''):'<div class="empty">Henüz sorumluluk eklemedin.<br>＋ Ekle düğmesiyle ilk sorumluluğunu oluştur.</div>'
+}
+function esc(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function renderDetail(){
+  let x=db.items.find(a=>a.id===current);if(!x){$('detailContent').innerHTML='';return}
+  let u=unitOf(x),dailyGoal=goalForMonth(x,monthKey()),sec=todayLive(x.id),todayValue=u==='minute'?sec/60:totalFor(x.id,dayKey());
+  let total=u==='minute'?db.sessions.filter(s=>s.id===x.id).reduce((a,s)=>a+(s.seconds||0),0)+((x.running||x.paused)?elapsed(x):0):db.sessions.filter(s=>s.id===x.id).reduce((a,s)=>a+(s.amount||0),0);
+  let goal=u==='minute'?(x.longGoal??((x.hours||100)*60)):(x.longGoal??100),longTotal=u==='minute'?`${(total/3600).toFixed(2)} / ${(goal/60).toFixed(1)} saat`:`${Number(total.toFixed(1))} / ${goal} ${unitLongLabel(u)}`;
+  let progressControls=u==='minute'?`<div class="timer" id="detailTimer">${fmt((x.running||x.paused)?elapsed(x):0)}</div><div class="row"><button class="primary" onclick="${x.running?`pause('${x.id}')`:`start('${x.id}')`}">${x.running?'Seansı bitir':'Başlat'}</button><button class="secondary" onclick="finish('${x.id}')">Bitir ve kaydet</button><button class="secondary" onclick="editTimer('${x.id}')">Süreyi değiştir</button></div>`:`<div class="row"><button class="primary" onclick="addAmount('${x.id}')">＋ ${unitLabel(u)} ekle</button></div>`;
+  $('detailContent').innerHTML=`<div class="panel"><div class="muted">SORUMLULUK · ${unitLabel(u).toLocaleUpperCase('tr-TR')}</div><h2>${esc(x.name)}</h2>${progressControls}<hr style="border:0;border-top:1px solid var(--line);margin:17px 0"><div class="numbers"><strong>Bugün: ${Number(todayValue.toFixed(1))} / ${dailyGoal==null?'Hedef belirlenmedi':dailyGoal+' '+unitLabel(u)}</strong><span>${dailyGoal==null?'Aylık hedefini belirle':todayValue>=dailyGoal?'✓ Hedef tamamlandı':`${Number(Math.max(0,dailyGoal-todayValue).toFixed(1))} ${unitLabel(u)} kaldı`}</span></div><div class="bar"><i style="width:${dailyGoal?Math.min(100,todayValue/dailyGoal*100):0}%;background:${x.color}"></i></div><div class="long"><span>Toplam ilerleme</span><strong>${longTotal}</strong></div><p class="muted">Uzun vadeli hedef: %${Math.min(100,total/goal*100).toFixed(1)}</p><div class="row"><button class="secondary" onclick="editItem('${x.id}')">Düzenle</button><button class="secondary" onclick="archive('${x.id}')">Arşive taşı</button><button class="danger" onclick="deleteItem('${x.id}')">Kalıcı olarak sil</button></div></div>${renderMonthlyGoalEditor(x.id)}<div class="panel"><strong>Son kayıtlar</strong><div id="sessionRows">${db.sessions.filter(s=>s.id===x.id).slice().reverse().slice(0,20).map(s=>{let idx=db.sessions.indexOf(s),v=sessionValue(s,x);return `<div class="long"><span>${s.day}</span><strong>${u==='minute'?fmt(s.seconds||0):`${v} ${unitLabel(u)}`}</strong><button class="smallbtn" onclick="editSession('${idx}')">Düzenle</button><button class="smallbtn" onclick="deleteSession('${idx}')">Sil</button></div>`}).join('')||'<p class="muted">Henüz kayıt yok.</p>'}</div></div>`
+}
+function editSession(i){
+  let s=db.sessions[Number(i)];if(!s)return;let x=db.items.find(a=>a.id===s.id);if(!x)return;let u=unitOf(x);
+  let initial=u==='minute'?((s.seconds||0)/60).toFixed(2):(s.amount||0),label=unitLabel(u);
+  let m=prompt('Yeni değer ('+label+'):',initial);if(m===null)return;let value=Number(m.replace(',','.'));
+  if(Number.isFinite(value)&&value>0){if(u==='minute'){s.seconds=Math.round(value*60);if(Number(s.minSessionSeconds)>0)s.sessionPassed=s.seconds>=Number(s.minSessionSeconds);}else s.amount=value;save();renderAll()}else alert('Lütfen sıfırdan büyük geçerli bir değer gir.')
+}
+function deleteSession(i){if(confirm('Bu kayıt silinsin mi?')){db.sessions.splice(Number(i),1);save();renderAll()}}
+function fillSelects(){
+  let cal=$('calWho'),cv=cal.value;
+  cal.innerHTML='<option value="all">Tüm sorumluluklar</option>'+db.items.filter(x=>!x.archived).map(x=>`<option value="${x.id}">${esc(x.name)} · ${unitLabel(unitOf(x))}</option>`).join('');
+  cal.value=[...cal.options].some(o=>o.value===cv)?cv:'all';
+  let rep=$('reportWho'),rv=rep.value;
+  rep.innerHTML='<option value="all">Tüm sorumluluklar</option>'+db.items.filter(x=>!x.archived).map(x=>`<option value="${x.id}">${esc(x.name)} · ${unitLabel(unitOf(x))}</option>`).join('');
+  rep.value=[...rep.options].some(o=>o.value===rv)?rv:'all';
+  let sw=$('sessionWho'),sv=sw.value;sw.innerHTML='<option value="all">Tüm sorumluluklar</option>'+db.items.filter(x=>!x.archived).map(x=>`<option value="${x.id}">${esc(x.name)} · ${unitLabel(unitOf(x))}</option>`).join('');sw.value=[...sw.options].some(o=>o.value===sv)?sv:'all';
+}
+
+function dailyValue(id,k){
+  const x=db.items.find(a=>a.id===id);if(!x)return 0;
+  let v=totalFor(id,k);
+  if(k===dayKey()&&unitOf(x)==='minute'){
+    const live=db.items.filter(a=>a.id===id&&(!a.sessionStartedAt||dayKey(new Date(a.sessionStartedAt))===k)).reduce((n,a)=>n+((a.running||a.paused)?elapsed(a):0),0);
+    v+=live/60;
+  }
+  return v;
+}
+function statusFor(id,k){
+  const x=db.items.find(a=>a.id===id);if(!x)return 'future';
+  if(k<x.createdAt)return 'before';
+  // Önceden kazanılmış gün tiklidir ve tarih geldiğinde de asla çarpıya dönüşmez.
+  if(earnedDaysFor(id,monthKey(k)).has(k))return 'done';
+  const today=dayKey(),v=dailyValue(id,k),quota=goalForDate(x,k);
+  if(k>today)return 'future';
+  if(quota==null||!(quota>0))return 'unconfigured';
+  if(v>=quota)return 'done';
+  return k===today?'pending':'missed';
+}
+function streakFor(id){
+  const x=db.items.find(a=>a.id===id);if(!x)return {current:0,best:0};
+  const from=new Date((x.createdAt||dayKey())+'T00:00:00'),today=new Date(dayKey()+'T00:00:00');
+  let current=0,best=0,run=0;
+  for(let d=new Date(from);d<=today;d.setDate(d.getDate()+1)){
+    const k=dayKey(d),st=statusFor(id,k);
+    if(st==='done'){run++;best=Math.max(best,run)}
+    else if(st==='missed'){run=0}
+  }
+  // A pending current day does not break yesterday's streak until midnight.
+  current=run;
+  return {current,best};
+}
+function calendarStatus(k,who){
+  if(who!=='all') return statusFor(who,k);
+  const eligible=db.items.filter(x=>!x.archived&&k>=String(x.createdAt||dayKey()).slice(0,10));
+  if(!eligible.length) return 'future';
+  const states=eligible.map(x=>statusFor(x.id,k));
+  if(states.some(s=>s==='missed')) return 'missed';
+  if(states.every(s=>s==='done')) return 'done';
+  if(states.every(s=>s==='future'||s==='before')) return 'future';
+  return 'pending';
+}
+function renderCalendar(){
+  let y=month.getFullYear(),m=month.getMonth(),first=new Date(y,m,1),days=new Date(y,m+1,0).getDate(),who=$('calWho').value;
+  $('monthTitle').textContent=new Intl.DateTimeFormat('tr-TR',{month:'long',year:'numeric'}).format(month);
+  let cells=['Pzt','Sal','Çar','Per','Cum','Cmt','Paz'].map(x=>`<div class="head">${x}</div>`).join(''),offset=(first.getDay()+6)%7;
+  for(let i=0;i<offset;i++)cells+='<div></div>';
+  for(let d=1;d<=days;d++){
+    let k=`${y}-${pad(m+1)}-${pad(d)}`,st=calendarStatus(k,who);
+    let mark=st==='done'?'✓':st==='missed'?'✕':'';
+    let cls=st==='done'?'good':st==='missed'?'bad':'nodata';
+    cells+=`<button type="button" class="daycell ${cls}" data-day="${k}" aria-label="${k} ${mark}" style="border:0;color:inherit;font:inherit;text-align:left;cursor:pointer;width:100%"><div class="dayhead"><span>${d}</span><span class="daymark">${mark}</span></div></button>`;
+  }
+  $('calendarGrid').innerHTML=cells;
+  $('calendarGrid').querySelectorAll('[data-day]').forEach(cell=>{
+    cell.addEventListener('click',()=>showDay(cell.dataset.day));
+  });
+  if(selectedDay && selectedDay.slice(0,7)===`${y}-${pad(m+1)}`) showDay(selectedDay);
+}
+function showDay(k){
+  selectedDay=k;
+  const allView=$('calWho').value==='all';
+  let ids=allView?db.items.filter(x=>!x.archived).map(x=>x.id):[$('calWho').value];
+  let rows=ids.map(id=>{
+    let x=db.items.find(a=>a.id===id);
+    if(!x||k<String(x.createdAt||'').slice(0,10))return null;
+    let v=k===dayKey()?dailyValue(id,k):totalFor(id,k);
+    let st=statusFor(id,k),mark=st==='done'?'✓':st==='missed'?'✕':'';
+    let unit=unitOf(x)==='minute'?'dk':unitLabel(unitOf(x));
+    let shown=unitOf(x)==='minute'?formatTotalDuration(v):`${Number(v.toFixed(1))} ${unit}`;
+    return {x,v,st,mark,shown,unit};
+  }).filter(Boolean);
+  const minuteTotal=rows.filter(r=>unitOf(r.x)==='minute').reduce((n,r)=>n+r.v,0);
+  const pageTotal=rows.filter(r=>unitOf(r.x)==='page').reduce((n,r)=>n+r.v,0);
+  const countTotal=rows.filter(r=>unitOf(r.x)==='count').reduce((n,r)=>n+r.v,0);
+  const summary=[
+    minuteTotal?`Toplam süre: ${formatTotalDuration(minuteTotal)}`:null,
+    pageTotal?`Toplam sayfa: ${Number(pageTotal.toFixed(1))} sayfa`:null,
+    countTotal?`Toplam adet: ${Number(countTotal.toFixed(1))} adet`:null
+  ].filter(Boolean).join(' · ');
+  if(allView){
+    const tableRows=rows.map(r=>`<tr><td>${esc(r.x.name)}</td><td class="statusMark ${r.st==='done'?'done':r.st==='missed'?'missed':''}">${r.mark}</td></tr>`).join('');
+    const allStatus=calendarStatus(k,'all');
+    const allMark=allStatus==='done'?'✓ Hepsi tamamlandı':allStatus==='missed'?'✕ Eksik sorumluluk var':'';
+    $('dayInfo').innerHTML=`<div class="panel" style="margin-top:14px"><div class="long"><strong>${k} · Sorumluluk durumları</strong><strong class="statusMark ${allStatus==='missed'?'missed':'done'}">${allMark}</strong></div><p class="muted">${summary||'Bu gün için kayıt yok.'}</p><table class="statusTable"><thead><tr><th>Sorumluluk</th><th>Durum</th></tr></thead><tbody>${tableRows||'<tr><td colspan="2">Bu tarihte aktif sorumluluk yok.</td></tr>'}</tbody></table></div>`;
+    return;
+  }
+  $('dayInfo').innerHTML=`<hr style="border:0;border-top:1px solid var(--line)"><strong>${k}</strong><p class="muted">${summary||'Bu gün için kayıt yok.'}</p>`+rows.map(r=>{
+    const quota=goalForDate(r.x,k),pct=quota?Math.min(100,r.v/quota*100):0;
+    return `<div class="panel" style="margin-top:8px"><div class="long"><strong>${esc(r.x.name)}</strong><strong class="statusMark ${r.st==='done'?'done':r.st==='missed'?'missed':''}">${r.mark}</strong></div><div class="numbers"><strong>${r.shown} / ${quota==null?'Hedef belirlenmedi':quota+' '+r.unit}</strong><span>${quota==null?'Bu ay için hedef belirlemelisin':r.st==='done'?(r.v>=quota?'Hedef tamamlandı':'Önceden kazanıldı'):r.st==='missed'?'Hedef tamamlanmadı':r.st==='pending'?`${Math.max(0,Number((quota-r.v).toFixed(1)))} ${r.unit} kaldı`:''}</span></div><div class="bar"><i style="width:${pct}%;background:${r.x.color}"></i></div></div>`;
+  }).join('');
+}
+function shiftMonth(n){month.setMonth(month.getMonth()+n);selectedDay=null;$('dayInfo').innerHTML='';renderCalendar()}
+function formatTotalDuration(minutes){
+  const totalSeconds=Math.round(minutes*60);
+  if(totalSeconds<60)return `${totalSeconds} saniye`;
+  const wholeMinutes=Math.floor(totalSeconds/60),seconds=totalSeconds%60;
+  const hours=Math.floor(wholeMinutes/60),mins=wholeMinutes%60;
+  if(hours&&mins)return `${hours} saat ${mins} dakika`;
+  if(hours)return `${hours} saat`;
+  return `${mins} dakika`;
+}
+function sessionStatusForDay(k,who='all'){
+  const items=db.items.filter(x=>!x.archived&&unitOf(x)==='minute'&&(who==='all'||x.id===who));
+  const relevant=items.flatMap(x=>db.sessions.filter(s=>s.id===x.id&&s.day===k).map(s=>({x,s})));
+  if(!relevant.length)return 'none';
+  return relevant.some(({s})=>s.sessionPassed===false || (Number(s.minSessionSeconds)>0 && Number(s.seconds)<Number(s.minSessionSeconds)))?'missed':'done';
+}
+function renderSessionCalendar(){
+  if(!$('sessionCalendarGrid'))return;
+  const y=sessionMonth.getFullYear(),m=sessionMonth.getMonth(),first=new Date(y,m,1),days=new Date(y,m+1,0).getDate(),who=$('sessionWho').value;
+  $('sessionMonthTitle').textContent=new Intl.DateTimeFormat('tr-TR',{month:'long',year:'numeric'}).format(sessionMonth);
+  let cells=['Pzt','Sal','Çar','Per','Cum','Cmt','Paz'].map(x=>`<div class="head">${x}</div>`).join(''),offset=(first.getDay()+6)%7;
+  for(let i=0;i<offset;i++)cells+='<div></div>';
+  for(let d=1;d<=days;d++){let k=`${y}-${pad(m+1)}-${pad(d)}`,st=sessionStatusForDay(k,who),mark=st==='done'?'✓':st==='missed'?'✕':'',cls=st==='done'?'good':st==='missed'?'bad':'nodata';cells+=`<button type="button" class="daycell ${cls}" data-session-day="${k}" style="border:0;color:inherit;font:inherit;text-align:left;width:100%"><div class="dayhead"><span>${d}</span><span class="daymark">${mark}</span></div></button>`;}
+  $('sessionCalendarGrid').innerHTML=cells;
+  $('sessionCalendarGrid').querySelectorAll('[data-session-day]').forEach(b=>b.addEventListener('click',()=>showSessionDay(b.dataset.sessionDay)));
+  if(selectedSessionDay&&selectedSessionDay.slice(0,7)===`${y}-${pad(m+1)}`)showSessionDay(selectedSessionDay);
+  renderDailyTotals();
+}
+function shiftSessionMonth(n){sessionMonth.setMonth(sessionMonth.getMonth()+n);selectedSessionDay=null;$('sessionDayInfo').innerHTML='';renderSessionCalendar()}
+function showSessionDay(k){
+  selectedSessionDay=k;const who=$('sessionWho').value,items=db.items.filter(x=>!x.archived&&unitOf(x)==='minute'&&(who==='all'||x.id===who));
+  const rows=items.map(x=>{const list=db.sessions.filter(s=>s.id===x.id&&s.day===k);const failed=list.some(s=>s.sessionPassed===false||(Number(s.minSessionSeconds)>0&&Number(s.seconds)<Number(s.minSessionSeconds)));return {x,list,failed};});
+  $('sessionDayInfo').innerHTML=`<div class="panel" style="margin-top:14px"><strong>${k} · Günlük seans durumu</strong>`+(rows.map(({x,list,failed})=>{const status=list.length?(failed?'missed':'done'):'pending';const label=status==='missed'?'Seans hedefi başarısız oldu':status==='done'?'Seans hedefine bağlı kalındı':'Henüz seans kaydı yok';const mark=status==='missed'?'✕':status==='done'?'✓':'·';return `<div class="long" style="margin-top:10px"><span><strong>${esc(x.name)}</strong><br><small class="muted">${label}</small></span><strong class="statusMark ${status==='missed'?'missed':status==='done'?'done':''}">${mark}</strong></div>`;}).join('')||'<p class="muted">Gösterilecek sorumluluk yok.</p>')+'</div>';
+}
+function renderDailyTotals(){
+  const who=$('sessionWho').value,items=db.items.filter(x=>!x.archived&&(who==='all'||x.id===who));
+  const days=[...new Set(db.sessions.filter(s=>items.some(x=>x.id===s.id)).map(s=>s.day))].sort().reverse();
+  if(!days.length){$('dailyTotalsTable').innerHTML='<p class="muted">Henüz günlük kayıt yok.</p>';return;}
+  const heads=items.map(x=>`<th>${esc(x.name)}<br><small>${unitLabel(unitOf(x))}</small></th>`).join('');
+  const body=days.map(k=>`<tr><td>${k}</td>`+items.map(x=>{let v=db.sessions.filter(s=>s.id===x.id&&s.day===k).reduce((n,s)=>n+sessionValue(s,x),0);if(k===dayKey()&&unitOf(x)==='minute'&&x.running)v+=elapsed(x)/60;let shown=unitOf(x)==='minute'?formatTotalDuration(v):`${Number(v.toFixed(1))} ${unitLabel(unitOf(x))}`;return `<td>${v?shown:'·'}</td>`}).join('')+'</tr>').join('');
+  $('dailyTotalsTable').innerHTML=`<div style="overflow-x:auto"><table class="statusTable"><thead><tr><th>Tarih</th>${heads}</tr></thead><tbody>${body}</tbody></table></div>`;
+}
+function renderTotals(){
+  const rows=db.items.map(x=>{
+    const u=unitOf(x);
+    let value=db.sessions.filter(s=>s.id===x.id).reduce((a,s)=>a+(u==='minute'?(s.seconds||0)/60:(s.amount||0)),0);
+    if(u==='minute'&&(x.running||x.paused))value+=elapsed(x)/60;
+    const goal=u==='minute'?(x.longGoal??((x.hours||100)*60)):(x.longGoal??100);
+    return {x,u,value,goal};
+  });
+  const minutes=rows.filter(r=>r.u==='minute').reduce((n,r)=>n+r.value,0);
+  const pages=rows.filter(r=>r.u==='page').reduce((n,r)=>n+r.value,0);
+  const counts=rows.filter(r=>r.u==='count').reduce((n,r)=>n+r.value,0);
+  const summary=`<div class="panel"><strong>Genel toplam</strong><div class="muted" style="margin-top:8px">Tüm sorumlulukların birimlerine göre toplamı</div>${minutes?`<div class="long"><span>Toplam çalışma süresi</span><strong>${formatTotalDuration(minutes)}</strong></div>`:''}${pages?`<div class="long"><span>Toplam sayfa</span><strong>${Number(pages.toFixed(1))} sayfa</strong></div>`:''}${counts?`<div class="long"><span>Toplam adet</span><strong>${Number(counts.toFixed(1))} adet</strong></div>`:''}${!minutes&&!pages&&!counts?'<p class="muted">Henüz tamamlanmış kayıt yok.</p>':''}</div>`;
+  const details=rows.map(({x,u,value,goal})=>{
+    const shown=u==='minute'?formatTotalDuration(value):`${Number(value.toFixed(1))} ${unitLongLabel(u)}`;
+    const target=u==='minute'?formatTotalDuration(goal):`${goal} ${unitLongLabel(u)}`;
+    return `<div class="panel"><strong>${esc(x.name)}</strong><div class="timer">${shown}</div><div class="muted">Nihai hedef: ${target} · %${goal>0?Math.min(100,value/goal*100).toFixed(1):'0.0'}</div></div>`;
+  }).join('');
+  $('totalList').innerHTML=(rows.length?summary+details:'<div class="empty">Henüz sorumluluk yok.</div>');
+}
+function setReportRange(v){reportRange=v;document.querySelectorAll('[data-range]').forEach(b=>b.classList.toggle('activeRange',b.dataset.range===v));renderReports()}
+
+function selectedReportItems(){
+  const who=$('reportWho').value;
+  return who==='all'?db.items.filter(x=>!x.archived):db.items.filter(x=>x.id===who);
+}
+function daysBetween(a,b){
+  let out=[];for(let d=new Date(a+'T00:00:00');d<=new Date(b+'T00:00:00');d.setDate(d.getDate()+1))out.push(dayKey(d));return out;
+}
+function unitTotal(id,from,to){
+  const x=db.items.find(a=>a.id===id);if(!x)return 0;
+  let sum=0;
+  db.sessions.filter(s=>s.id===id&&s.day>=from&&s.day<=to).forEach(s=>sum+=sessionValue(s,x));
+  if(to===dayKey()&&unitOf(x)==='minute')sum+=db.items.filter(a=>a.id===id).reduce((n,a)=>n+(a.running?elapsed(a):(a.elapsed||0))/60,0);
+  return sum;
+}
+function valueLabel(x,v){
+  if(unitOf(x)==='minute')return formatTotalDuration(v);
+  return `${Number(v.toFixed(1))} ${unitLongLabel(unitOf(x))}`;
+}
+function totalByDay(id,k){return dailyValue(id,k)}
+function bestStreakForItems(items){
+  let current=0,best=0;
+  items.forEach(x=>{let s=streakFor(x.id);current+=s.current;best=Math.max(best,s.best)});
+  return {current,best};
+}
+
+function drawReportChart(labels,values,title){
+  const canvas=$('chart');if(!canvas)return;
+  const ctx=canvas.getContext('2d'),w=canvas.width,h=canvas.height;
+  ctx.clearRect(0,0,w,h);
+  $('chartTitle').textContent=title||'İlerleme grafiği';
+  const padL=42,padR=12,padT=18,padB=34,plotW=w-padL-padR,plotH=h-padT-padB;
+  const max=Math.max(1,...values.map(v=>Number(v)||0));
+  ctx.font='11px system-ui';ctx.textAlign='right';ctx.textBaseline='middle';
+  ctx.strokeStyle=getComputedStyle(document.documentElement).getPropertyValue('--line').trim()||'#ddd';
+  ctx.fillStyle=getComputedStyle(document.documentElement).getPropertyValue('--muted').trim()||'#777';
+  for(let i=0;i<=4;i++){
+    const y=padT+plotH*i/4;
+    ctx.beginPath();ctx.moveTo(padL,y);ctx.lineTo(w-padR,y);ctx.stroke();
+    ctx.fillText((max*(1-i/4)).toFixed(max<10?1:0),padL-7,y);
+  }
+  const n=values.length,slot=plotW/Math.max(1,n),barW=Math.max(2,Math.min(24,slot*.66));
+  ctx.fillStyle=getComputedStyle(document.documentElement).getPropertyValue('--accent').trim()||'#3986d8';
+  values.forEach((raw,i)=>{
+    const v=Math.max(0,Number(raw)||0),bh=v/max*plotH,x=padL+i*slot+(slot-barW)/2,y=padT+plotH-bh;
+    ctx.fillRect(x,y,barW,bh);
+    if(n<=14||i%Math.ceil(n/14)===0||i===n-1){
+      ctx.fillStyle=getComputedStyle(document.documentElement).getPropertyValue('--muted').trim()||'#777';
+      ctx.textAlign='center';ctx.textBaseline='top';
+      ctx.fillText(String(labels[i]??''),x+barW/2,h-padB+7);
+      ctx.fillStyle=getComputedStyle(document.documentElement).getPropertyValue('--accent').trim()||'#3986d8';
+    }
+  });
+}
+function renderReports(){
+  const items=selectedReportItems(),ids=items.map(x=>x.id),now=new Date(),today=dayKey(now);
+  let start,end,period;
+  if(reportRange==='day'){start=today;end=today;period='Bugün'}
+  else if(reportRange==='week'){let d=new Date(now);d.setDate(d.getDate()-6);start=dayKey(d);end=today;period='Son 7 gün'}
+  else if(reportRange==='month'){start=dayKey(new Date(now.getFullYear(),now.getMonth(),1));end=today;period=new Intl.DateTimeFormat('tr-TR',{month:'long',year:'numeric'}).format(now)}
+  else{start=dayKey(new Date(now.getFullYear(),0,1));end=today;period=String(now.getFullYear())}
+  const days=daysBetween(start,end),totals=items.map(x=>({x,value:unitTotal(x.id,start,end)}));
+  $('reportPeriod').textContent=period;
+  const active=totals.filter(t=>t.value>0).length;
+  $('reportStats').innerHTML=[
+    ['Sorumluluklar',`${active} / ${items.length}`],
+    ['Tamamlanan hedef',`${days.filter(k=>items.length&&items.every(x=>statusFor(x.id,k)==='done')).length} gün`],
+    ['Dönem',`${days.length} gün`],
+    ['Aktif seriler',`${items.filter(x=>streakFor(x.id).current>0).length} / ${items.length}`]
+  ].map(a=>`<div class="stat"><span class="muted">${a[0]}</span><strong>${a[1]}</strong></div>`).join('');
+  const one=items.length===1?items[0]:null;
+  const compare=items.map(x=>{
+    let thisWeek=unitTotal(x.id,dayKey(new Date(now.getFullYear(),now.getMonth(),now.getDate()-6)),today);
+    let prevStart=dayKey(new Date(now.getFullYear(),now.getMonth(),now.getDate()-13)),prevEnd=dayKey(new Date(now.getFullYear(),now.getMonth(),now.getDate()-7));
+    let prev=unitTotal(x.id,prevStart,prevEnd),delta=prev?((thisWeek-prev)/prev*100):null;
+    let monthDays=daysBetween(dayKey(new Date(now.getFullYear(),now.getMonth(),1)),today).filter(k=>k<today||statusFor(x.id,k)!=='pending');
+    let completed=monthDays.filter(k=>statusFor(x.id,k)==='done').length,rate=monthDays.length?completed/monthDays.length*100:0;
+    return {x,thisWeek,prev,delta,rate,completed,eligible:monthDays.length};
+  });
+  $('comparisonStats').innerHTML=compare.map(c=>`<div class="compareCard"><span class="muted">${esc(c.x.name)} · haftalık değişim</span><strong>${c.delta===null?'Yeni kayıt':`${c.delta>=0?'+':''}${c.delta.toFixed(0)}%`}</strong><div class="muted">Bu hafta: ${valueLabel(c.x,c.thisWeek)} · Önceki: ${valueLabel(c.x,c.prev)}</div><div class="miniProgress"><i style="width:${Math.min(100,c.rate)}%"></i></div><div class="muted">Bu ay başarı: ${c.rate.toFixed(0)}% (${c.completed}/${c.eligible} gün)</div></div>`).join('')||'<div class="muted">İstatistik için sorumluluk ekle.</div>';
+  $('streakBreakdown').innerHTML=items.map(x=>{let s=streakFor(x.id);return `<div class="streakRow"><span>${esc(x.name)}</span><strong>${s.current} gün · rekor ${s.best} gün</strong></div>`}).join('')||'<p class="muted">Henüz sorumluluk yok.</p>';
+  // Activity heatmap: selected item progress, or combined completion ratio.
+  const heatDays=84,heatStart=new Date(now);heatStart.setDate(now.getDate()-(heatDays-1));let heat='';
+  for(let i=0;i<heatDays;i++){
+    let d=new Date(heatStart);d.setDate(heatStart.getDate()+i);let k=dayKey(d),ratio=0;
+    if(items.length){let vals=items.filter(x=>k>=x.createdAt).map(x=>{const q=goalForDate(x,k);return q?Math.min(1,totalByDay(x.id,k)/q):0});ratio=vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:0}
+    let level=ratio===0?0:ratio<.25?1:ratio<.5?2:ratio<1?3:4;
+    heat+=`<span class="heat h${level}" title="${k}: %${Math.round(ratio*100)}"></span>`;
+  }
+  $('activityMap').innerHTML=heat;
+  // Progress history chart
+  let labels=[],values=[];
+  if(reportRange==='day'){
+    if(one&&unitOf(one)!=='minute'){
+      labels=['Bugün'];values=[totalByDay(one.id,today)];
+    }else{
+      for(let i=0;i<24;i++){labels.push(String(i).padStart(2,'0'));let sum=0;items.filter(x=>unitOf(x)==='minute').forEach(x=>db.sessions.filter(s=>s.id===x.id&&s.day===today&&s.startedAt&&new Date(s.startedAt).getHours()===i).forEach(s=>sum+=(s.seconds||0)/60));values.push(sum)}
+    }
+  }else{
+    let chartDays=reportRange==='year'?12:reportRange==='week'?7:reportRange==='month'?new Date(now.getFullYear(),now.getMonth()+1,0).getDate():days.length;
+    for(let i=0;i<chartDays;i++){
+      let a,b,d;
+      if(reportRange==='year'){a=dayKey(new Date(now.getFullYear(),i,1));b=dayKey(new Date(now.getFullYear(),i+1,0));d=new Date(now.getFullYear(),i,1);labels.push(new Intl.DateTimeFormat('tr-TR',{month:'short'}).format(d))}
+      else{d=reportRange==='week'?new Date(now.getFullYear(),now.getMonth(),now.getDate()-6+i):new Date(now.getFullYear(),now.getMonth(),i+1);a=dayKey(d);b=a;labels.push(reportRange==='week'?new Intl.DateTimeFormat('tr-TR',{weekday:'short'}).format(d):String(d.getDate()))}
+      if(one) values.push(unitTotal(one.id,a,b));
+      else{
+        const eligible=items.filter(x=>a>=x.createdAt);
+        const pct=eligible.length?eligible.reduce((n,x)=>{const q=goalForDate(x,a);return n+(q?Math.min(1,unitTotal(x.id,a,b)/q)*100:0)},0)/eligible.length:0;
+        values.push(pct);
+      }
+    }
+  }
+  const chartTitle=one?`${one.name} · ${unitOf(one)==='minute'?'çalışma süresi':unitLongLabel(unitOf(one))} ilerlemesi`:reportRange==='day'?'Bugün saatlik çalışma (dakika türü)':'Günlük ortalama hedef tamamlama oranı (%)';
+  drawReportChart(labels,values,chartTitle);
+  $('progressHistory').innerHTML=totals.map(t=>`<div class="reportLine"><span>${esc(t.x.name)}</span><strong>${valueLabel(t.x,t.value)}</strong></div>`).join('')||'<p class="muted">Henüz kayıt yok.</p>';
+  $('milestones').innerHTML=items.map(x=>{
+    let total=db.sessions.filter(s=>s.id===x.id).reduce((n,s)=>n+sessionValue(s,x),0);
+    if(unitOf(x)==='minute'&&(x.running||x.paused))total+=elapsed(x)/60;
+    let goal=x.longGoal??(unitOf(x)==='minute'?((x.hours||100)*60):100),pct=Math.min(100,total/goal*100),marks=[25,50,75,100];
+    return `<div class="milestone"><div class="milestoneTop"><strong>${esc(x.name)}</strong><span>${pct.toFixed(1)}%</span></div><div class="miniProgress"><i style="width:${pct}%"></i></div><div class="muted">${marks.map(m=>`${pct>=m?'✓':'○'} %${m}`).join('　')} · ${valueLabel(x,total)} / ${valueLabel(x,goal)}</div></div>`;
+  }).join('')||'<p class="muted">Henüz kilometre taşı yok.</p>';
+  $('productivityStats').innerHTML=items.map(x=>{
+    const byDay={};
+    db.sessions.filter(s=>s.id===x.id).forEach(s=>byDay[s.day]=(byDay[s.day]||0)+sessionValue(s,x));
+    const entry=Object.entries(byDay).sort((a,b)=>b[1]-a[1])[0];
+    const bestDay=entry?`${entry[0]} · ${valueLabel(x,entry[1])}`:'Henüz veri yok';
+    const hours=Array(24).fill(0);
+    db.sessions.filter(s=>s.id===x.id&&s.startedAt&&unitOf(x)==='minute').forEach(s=>hours[new Date(s.startedAt).getHours()]+=s.seconds||0);
+    const hi=Math.max(...hours),bestHour=hi>0?`${String(hours.indexOf(hi)).padStart(2,'0')}:00 · ${formatTotalDuration(hi/60)}`:'Yeni saat verisi bekleniyor';
+    return `<div class="milestone"><strong>${esc(x.name)}</strong><div class="reportLine"><span>En verimli gün</span><strong>${bestDay}</strong></div><div class="reportLine"><span>En verimli saat</span><strong>${bestHour}</strong></div></div>`;
+  }).join('')||'<p class="muted">Henüz sorumluluk yok.</p>';
+  $('productivityStats').innerHTML += `<p class="muted">Saat analizi, bu sürümden itibaren zaman damgası tutulan yeni dakika kayıtlarıyla gelişir. Eski kayıtlarda saat bilgisi bulunmayabilir.</p>`;
+  $('etaStats').innerHTML=items.map(x=>{
+    let goal=x.longGoal??(unitOf(x)==='minute'?((x.hours||100)*60):100),total=db.sessions.filter(s=>s.id===x.id).reduce((n,s)=>n+sessionValue(s,x),0);
+    if(unitOf(x)==='minute'&&(x.running||x.paused))total+=elapsed(x)/60;
+    let remaining=Math.max(0,goal-total),recentStart=dayKey(new Date(now.getFullYear(),now.getMonth(),now.getDate()-6)),recent=unitTotal(x.id,recentStart,today),avg=recent/7,eta=avg>0?Math.ceil(remaining/avg):null;
+    let etaText=remaining===0?'Hedef tamamlandı':eta===null?'Yeterli ilerleme verisi yok':`${eta} gün · yaklaşık ${dayKey(new Date(now.getFullYear(),now.getMonth(),now.getDate()+eta))}`;
+    return `<div class="reportLine"><span>${esc(x.name)} <small class="muted">(${valueLabel(x,remaining)} kaldı)</small></span><strong>${etaText}</strong></div>`;
+  }).join('')||'<p class="muted">Henüz hedef yok.</p>';
+  $('reportBreakdown').innerHTML=totals.map(t=>`<div class="reportLine"><span><i class="dot" style="background:${t.x.color}"></i>${esc(t.x.name)}</span><strong>${valueLabel(t.x,t.value)}</strong></div>`).join('')||'<p class="muted">Henüz sorumluluk yok.</p>';
+}
+function renderArchive(){
+  $('archiveList').innerHTML='<p class="muted">Arşivdekiler ana listede ve günlük toplam sürede görünmez. Geçmiş kayıtları korunur. Geri yükleyebilir veya tüm kayıtlarıyla kalıcı olarak silebilirsin.</p>'+ (db.items.filter(x=>x.archived).map(x=>`<div class="long"><span>${esc(x.name)}</span><button class="smallbtn" onclick="unarchive('${x.id}')">Geri yükle</button><button class="smallbtn danger" onclick="deleteItem('${x.id}')">Kalıcı sil</button></div>`).join('')||'<p class="muted">Arşiv boş.</p>')
+}
+function unarchive(id){db.items.find(x=>x.id===id).archived=false;save();renderAll()}
+function renderAll(){
+  if(!$('home'))return;
+  renderHome();
+  if($('detail').classList.contains('active'))renderDetail();
+  fillSelects();renderCalendar();renderTotals();renderSessionCalendar();renderArchive();
+  try{renderReports()}catch(err){console.error('Raporlar yüklenemedi:',err);const box=$('reportStats');if(box)box.innerHTML='<p class="muted">Raporlar yüklenirken hata oluştu. Ana sayfa ve sorumluluk ekleme kullanılabilir.</p>'}
+}
+function setTheme(t){db.theme=t;document.documentElement.dataset.theme=t;save()}
+function toggleTheme(){setTheme(db.theme==='dark'?'light':'dark')}
+
+function csvCell(value){
+  const s=String(value??'');
+  return '"'+s.replace(/"/g,'""')+'"';
+}
+function downloadCSV(filename,headers,rows){
+  const lines=[headers,...rows].map(row=>row.map(csvCell).join(';')).join('\r\n');
+  const blob=new Blob(['\uFEFF'+lines],{type:'text/csv;charset=utf-8;'});
+  const url=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1500);
+  toast('CSV dosyası hazırlandı');
+}
+function exportSessionsCSV(){
+  const rows=db.sessions.slice().sort((a,b)=>(a.day||'').localeCompare(b.day||'')||(a.startedAt||0)-(b.startedAt||0)).map(s=>{
+    const x=db.items.find(a=>a.id===s.id),u=x?unitOf(x):(s.unit||'minute');
+    const amount=u==='minute'?(Number(s.seconds)||0)/60:(Number(s.amount)||0);
+    return [
+      s.day||'',x?x.name:'Silinmiş sorumluluk',
+      u==='minute'?'dakika':u==='page'?'sayfa':'adet',
+      amount.toFixed(2).replace('.',','),
+      u==='minute'?fmt(Number(s.seconds)||0):'',
+      s.startedAt?new Date(s.startedAt).toLocaleString('tr-TR'):'',
+      s.endedAt?new Date(s.endedAt).toLocaleString('tr-TR'):''
+    ];
+  });
+  downloadCSV('sorumluluk-cetelesi-calisma-kayitlari-'+dayKey()+'.csv',
+    ['Tarih','Sorumluluk','Birim','Miktar','Süre (Saat:Dakika:Saniye)','Başlangıç','Bitiş'],rows);
+}
+function exportSummaryCSV(){
+  const rows=db.items.map(x=>{
+    const u=unitOf(x);
+    let total=db.sessions.filter(s=>s.id===x.id).reduce((n,s)=>n+sessionValue(s,x),0);
+    if(u==='minute'&&!x.archived&&(x.running||x.paused))total+=elapsed(x)/60;
+    const longGoal=x.longGoal??(u==='minute'?((x.hours||100)*60):100);
+    const streak=streakFor(x.id);
+    return [
+      x.name,x.archived?'Arşiv':'Aktif',
+      u==='minute'?'dakika':u==='page'?'sayfa':'adet',
+      goalForMonth(x,monthKey())??x.daily,
+      u==='minute'?'dakika':u==='page'?'sayfa':'adet',
+      u==='minute'?(longGoal/60):longGoal,
+      u==='minute'?'saat':u==='page'?'sayfa':'adet',
+      total.toFixed(2).replace('.',','),
+      u==='minute'?fmt(total*60):'',
+      streak.current,streak.best,x.createdAt||''
+    ];
+  });
+  downloadCSV('sorumluluk-cetelesi-sorumluluk-ozeti-'+dayKey()+'.csv',
+    ['Sorumluluk','Durum','Birim','Günlük hedef','Günlük hedef birimi','Uzun vadeli hedef','Uzun vadeli hedef birimi','Toplam miktar','Toplam süre (SS:DD:SS)','Güncel streak (gün)','Rekor streak (gün)','Başlangıç tarihi'],rows);
+}
+
+function backup(){let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='sorumluluk-cetelesi-yedek.json';a.click();URL.revokeObjectURL(a.href)}
+function restore(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let d=JSON.parse(r.result);if(!d||!Array.isArray(d.items)||!Array.isArray(d.sessions))throw 0;if(confirm('Mevcut verilerin yerine yedek yüklensin mi?')){db=d;save();renderAll();toast('Yedek geri yüklendi')}}catch{alert('Yedek dosyası okunamadı.')}};r.readAsText(f)}
+function splitRunningAtMidnight(){
+  const now=Date.now();let changed=false;
+  db.items.filter(x=>unitOf(x)==='minute').forEach(x=>{
+    const first=Number(x.sessionStartedAt||x.started||0);
+    if(!first)return;
+    const boundary=new Date(new Date(first).getFullYear(),new Date(first).getMonth(),new Date(first).getDate()+1).getTime();
+    if(now<boundary)return;
+    let seconds=0;
+    if(x.running){
+      const runningStart=Number(x.started||now);
+      seconds=Math.max(0,Math.floor((Number(x.elapsed)||0)+Math.max(0,(Math.min(now,boundary)-runningStart)/1000)));
+    }else if(x.paused){
+      seconds=Math.max(0,Math.floor(Number(x.elapsed)||0));
+    }
+    if(seconds>0){
+      const minSec=Math.max(0,Number(x.minSessionMinutes)||0)*60;db.sessions.push({id:x.id,day:dayKey(new Date(first)),seconds,startedAt:first,endedAt:boundary,minSessionSeconds:minSec,sessionPassed:!minSec||seconds>=minSec});
+    }
+    // The stopwatch represents the current day's uncommitted session only.
+    x.elapsed=0;x.started=0;x.sessionStartedAt=0;x.running=false;x.paused=true;changed=true;
+  });
+  if(changed)save();
+}
+function tick(){
+  let oldDay=window.__scLastDay||dayKey();
+  splitRunningAtMidnight();
+  renderHome();
+  if($('calendar').classList.contains('active'))renderCalendar();
+  if($('reports').classList.contains('active'))renderReports();
+  if(oldDay!==dayKey()){
+    window.__scLastDay=dayKey();
+    if(monthKey(oldDay)!==monthKey()){
+      month=new Date();
+      selectedDay=null;
+      $('dayInfo').innerHTML='';
+      ensureMonthlyGoals();
+    }
+    $('dateLabel').textContent=new Intl.DateTimeFormat('tr-TR',{weekday:'long',day:'numeric',month:'long'}).format(new Date());
+    renderAll();
+  }
+  if($('detail').classList.contains('active')){
+    let x=db.items.find(a=>a.id===current);
+    if(x)$('detailTimer').textContent=fmt((x.running||x.paused)?elapsed(x):0);
+  }
+}
+window.__scLastDay=dayKey();
+function syncMonthAfterReturn(){
+  const now=dayKey(),last=window.__scLastDay||now;
+  if(monthKey(last)!==monthKey(now)){
+    month=new Date();
+    selectedDay=null;
+    $('dayInfo').innerHTML='';
+    window.__scLastDay=now;
+  }
+  ensureMonthlyGoals();
+  splitRunningAtMidnight();
+  renderAll();
+}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)syncMonthAfterReturn()});
+window.addEventListener('pageshow',()=>syncMonthAfterReturn());
+window.addEventListener('error',e=>{console.error('Uygulama hatası:',e.error||e.message);});
+function cloudMessage(message){const el=$('cloudStatus');if(el)el.textContent=message;}
+function cloudRender(){const form=$('cloudAuthForm'),account=$('cloudAccount');if(!form||!account)return;form.style.display=cloudUser?'none':'block';account.style.display=cloudUser?'block':'none';$('cloudUserEmail').textContent=cloudUser?`Giriş yapıldı: ${cloudUser.email||'hesap'}`:'';}
+function hasLocalData(data){return !!(data&&(data.items?.length||data.sessions?.length));}
+async function cloudFetch(){const {data,error}=await supabaseClient.from('app_sync').select('data,updated_at').eq('id','main').maybeSingle();if(error)throw error;return data||null;}
+async function cloudUpload(){if(!cloudUser||cloudBusy)return;cloudBusy=true;try{const payload=JSON.parse(JSON.stringify(db));const {error}=await supabaseClient.from('app_sync').upsert({id:'main',user_id:cloudUser.id,data:payload,updated_at:new Date().toISOString()},{onConflict:'id'});if(error)throw error;cloudMessage('☁️ Son eşitleme: '+new Date().toLocaleString('tr-TR'));}catch(err){console.error('Bulut eşitleme hatası:',err);cloudMessage('Eşitleme başarısız: '+(err.message||'Bağlantıyı kontrol et'));}finally{cloudBusy=false;}}
+function scheduleCloudSync(){clearTimeout(cloudTimer);cloudTimer=setTimeout(cloudUpload,1400);}
+async function cloudInitialSync(){cloudReady=false;cloudMessage('Bulut kayıtları kontrol ediliyor…');try{const remote=await cloudFetch(),localHas=hasLocalData(db),remoteHas=hasLocalData(remote?.data);if(remoteHas&&localHas){const useCloud=confirm('Bu cihazda da bulutta da kayıt var.\n\nTamam: Buluttaki kayıtları bu cihaza indir.\nİptal: Bu cihazdaki kayıtları buluta yükle.');if(useCloud){db=remote.data;await writeIDB(JSON.parse(JSON.stringify(db)));renderAll();cloudMessage('Bulut kayıtları bu cihaza alındı.');}else await cloudUpload();}else if(remoteHas&&!localHas){db=remote.data;await writeIDB(JSON.parse(JSON.stringify(db)));renderAll();cloudMessage('Bulut kayıtları bu cihaza alındı.');}else if(localHas&&!remoteHas)await cloudUpload();else cloudMessage('Senkronizasyon hazır. Henüz kayıt bulunmuyor.');cloudReady=true;}catch(err){console.error('İlk bulut eşitlemesi:',err);cloudMessage('Bulut erişimi başarısız: '+(err.message||'Ayarları kontrol et'));}}
+async function cloudSignUp(){const email=$('cloudEmail').value.trim(),password=$('cloudPassword').value;if(!email||password.length<6){alert('E-posta adresini ve en az 6 karakterli bir şifre gir.');return;}cloudMessage('Hesap oluşturuluyor…');const {data,error}=await supabaseClient.auth.signUp({email,password});if(error){cloudMessage('Hesap oluşturulamadı: '+error.message);return;}if(data.session){cloudUser=data.user;cloudRender();await cloudInitialSync();}else cloudMessage('Hesap oluşturuldu. E-postana gelen doğrulama bağlantısına tıkla, ardından giriş yap.');}
+async function cloudSignIn(){const email=$('cloudEmail').value.trim(),password=$('cloudPassword').value;if(!email||!password){alert('E-posta ve şifreni gir.');return;}cloudMessage('Giriş yapılıyor…');const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});if(error){cloudMessage('Giriş başarısız: '+error.message);return;}cloudUser=data.user;cloudRender();await cloudInitialSync();}
+async function cloudSignOut(){const {error}=await supabaseClient.auth.signOut();if(error){cloudMessage('Çıkış yapılamadı: '+error.message);return;}cloudUser=null;cloudReady=false;clearTimeout(cloudTimer);cloudRender();cloudMessage('Hesaptan çıkış yapıldı. Bu cihazdaki kayıtların silinmedi.');}
+async function cloudSyncNow(){if(!cloudUser){cloudMessage('Önce giriş yapmalısın.');return;}await cloudUpload();toast('Bulut eşitleme tamamlandı.');}
+async function initCloud(){cloudRender();const {data,error}=await supabaseClient.auth.getSession();if(error){cloudMessage('Oturum kontrol edilemedi: '+error.message);return;}if(data.session){cloudUser=data.session.user;cloudRender();await cloudInitialSync();}else cloudMessage('Senkronizasyon için giriş yap.');supabaseClient.auth.onAuthStateChange((event,session)=>{if(event==='SIGNED_OUT'){cloudUser=null;cloudReady=false;cloudRender();cloudMessage('Hesaptan çıkış yapıldı.');}});}
+async function initializeApp(){try{idb=await openAppDB();const stored=await readIDB();if(stored&&Array.isArray(stored.items)&&Array.isArray(stored.sessions)){db=stored;}else{db=loadLegacyDB();await writeIDB(JSON.parse(JSON.stringify(db)));}}catch(err){console.error('IndexedDB başlatılamadı:',err);db=loadLegacyDB();toast('IndexedDB kullanılamıyor. Eski kayıtlar geçici olarak kullanılacak.');}db.items.forEach(x=>{if(!x.unit){x.unit='minute';if(x.longGoal==null)x.longGoal=(x.hours||100)*60;}if(!x.createdAt){const first=db.sessions.filter(s=>s.id===x.id).map(s=>s.day).sort()[0];x.createdAt=first||dayKey();}if(x.minSessionMinutes==null)x.minSessionMinutes=0;if(!x.monthlyGoals||typeof x.monthlyGoals!=='object')x.monthlyGoals={};});ensureMonthlyGoals();document.documentElement.dataset.theme=db.theme||'light';splitRunningAtMidnight();$('dateLabel').textContent=new Intl.DateTimeFormat('tr-TR',{weekday:'long',day:'numeric',month:'long'}).format(new Date());renderAll();ticker=setInterval(tick,1000);}
+initializeApp().then(initCloud);
+</script>
+
+<script>
+if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(err => console.warn('Çevrimdışı destek etkinleştirilemedi:', err));
+  });
+}
+</script>
+
+</body></html>
