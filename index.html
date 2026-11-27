@@ -238,11 +238,11 @@ function freezeMonthsBefore(id,limitMk){
     cursor=monthKey(dayKey(d));
   }
 }
-function monthlyEditorRows(x){
+function monthlyEditorRows(x,count=12){
   const base=monthKey();
   const [yy,mm]=base.split('-').map(Number);
   const rows=[];
-  for(let i=0;i<12;i++){
+  for(let i=0;i<count;i++){
     const d=new Date(yy,mm-1+i,1);
     const mk=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
     const prior=Object.keys(x.monthlyGoals||{}).filter(k=>k<=mk&&Number(x.monthlyGoals[k])>0).sort().pop();
@@ -275,12 +275,21 @@ function manageMonthlyGoals(id){
 }
 function renderMonthlyGoalsEditor(x){
   const host=$('monthlyGoalsEditor');if(!host)return;
-  const rows=monthlyEditorRows(x),label=unitLabel(unitOf(x));
+  const visible=Number(host.dataset.visibleMonths||12);
+  const rows=monthlyEditorRows(x,visible),label=unitLabel(unitOf(x));
   host.innerHTML=`<div class="monthlyGoalEditor">
     <div class="monthlyGoalIntro">Her ay için günlük taahhüdünü ayrı ayrı belirle. Fazladan yaptığın çalışma sonraki günlerin hedeflerine aktarılır.</div>
     <div class="monthlyGoalRows">${rows.map(r=>`<label class="monthlyGoalRow"><span>${new Intl.DateTimeFormat('tr-TR',{month:'long',year:'numeric'}).format(new Date(r.key+'-01T00:00:00'))}</span><span class="monthlyGoalInput"><input class="field" type="number" min="0.01" step="0.1" data-month-goal="${x.id}" data-month="${r.key}" value="${r.value}"><small>${label}/gün</small></span></label>`).join('')}</div>
-    <button class="primary" onclick="saveMonthlyGoals('${x.id}')">Aylık hedefleri kaydet</button>
+    <div class="row" style="gap:10px;flex-wrap:wrap">
+      <button class="secondary" onclick="showMoreMonthlyGoals('${x.id}')">Sonraki 12 ayı göster</button>
+      <button class="primary" onclick="saveMonthlyGoals('${x.id}')">Aylık hedefleri kaydet</button>
+    </div>
   </div>`;
+}
+function showMoreMonthlyGoals(id){
+  const x=db.items.find(a=>a.id===id),host=$('monthlyGoalsEditor');if(!x||!host)return;
+  host.dataset.visibleMonths=String(Number(host.dataset.visibleMonths||12)+12);
+  renderMonthlyGoalsEditor(x);
 }
 function cleanupLegacyResponsibilityData(){
   const VERSION=2;
